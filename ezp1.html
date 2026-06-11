@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  min-width: 250px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  background: linear-gradient(135deg, #43a3e4, #ab87ee);
+  padding: 30px 40px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.header h2 {
+  margin: 0 0 20px 0;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.input-row input {
+  padding: 12px 15px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+#myInput {
+  flex: 1;
+  min-width: 0;
+}
+
+#deadlineInput {
+  width: 200px;
+  color: #555;
+}
+
+.addBtn {
+  padding: 12px 24px;
+  background: #fff;
+  color: #4e8fcc;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.addBtn:hover {
+  background: #ffe;
+  transform: scale(1.02);
+}
+
+ul {
+  margin: 20px auto;
+  padding: 0;
+  max-width: 600px;
+}
+
+ul li {
+  cursor: pointer;
+  position: relative;
+  padding: 15px 50px 15px 45px;
+  list-style-type: none;
+  background: #fff;
+  font-size: 16px;
+  transition: 0.2s;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+ul li:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+ul li.parent-item {
+  font-weight: bold;
+  background: #e3f2fd;
+}
+
+ul li.parent-item:hover {
+  background: #bbdefb;
+}
+
+ul li.sub-item {
+  margin-left: 30px;
+  background: #fafafa;
+  font-size: 15px;
+  padding: 12px 50px 12px 45px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+ul li.sub-item:hover {
+  background: #f0f0f0;
+}
+
+ul li.sub-item.sub-input-row {
+  padding: 8px 15px 8px 45px;
+  background: #fafafa;
+}
+
+ul li.checked {
+  background: #e8f5e9;
+  color: #888;
+  text-decoration: line-through;
+}
+
+ul li.checked::before {
+  content: '';
+  position: absolute;
+  border-color: #4CAF50;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  top: 50%;
+  left: 18px;
+  transform: translateY(-50%) rotate(45deg);
+  height: 12px;
+  width: 6px;
+}
+
+ul li.sub-item.checked::before {
+  left: 38px;
+}
+
+.toggle-btn {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  border-radius: 4px;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-btn:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+.toggle-btn.expanded::after {
+  content: '▼';
+}
+
+.toggle-btn.collapsed::after {
+  content: '▶';
+}
+
+li.sub-item .toggle-btn {
+  display: none;
+}
+
+.add-sub-btn {
+  position: absolute;
+  right: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 4px 8px;
+  font-size: 12px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: 0.2s;
+}
+
+li.parent-item:hover .add-sub-btn {
+  opacity: 1;
+}
+
+.add-sub-btn:hover {
+  background: #45a049;
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 8px 12px;
+  font-size: 18px;
+  color: #ccc;
+  border-radius: 4px;
+}
+
+.close:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+.sub-item .close {
+  right: 10px;
+}
+
+.deadline-info {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.deadline-info.overdue {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.deadline-info.completed {
+  color: #4CAF50;
+}
+
+
+</style>
+</head>
+<body>
+
+<div id="myDIV" class="header">
+  <h2>My To Do List</h2>
+  <div class="input-row">
+    <input type="text" id="myInput" placeholder="添加新事项...">
+    <input type="datetime-local" id="deadlineInput">
+    <span onclick="newElement()" class="addBtn">添加</span>
+  </div>
+</div>
+
+<ul id="myUL"></ul>
+
+<script>
+const STORAGE_KEY = 'todoListData';
+
+function loadData() {
+  const data = localStorage.getItem(STORAGE_KEY);
+  return data ? JSON.parse(data) : [];
+}
+
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function renderList() {
+  const data = loadData();
+  const ul = document.getElementById('myUL');
+  ul.innerHTML = '';
+
+  const parents = data.filter(item => !item.parentId);
+
+  parents.forEach((parent, pIndex) => {
+    const parentIndex = data.indexOf(parent);
+    const subItems = data.filter(item => item.parentId === parent.id);
+    const isExpanded = parent.expanded !== false;
+
+    const li = document.createElement('li');
+    li.className = 'parent-item' + (parent.checked ? ' checked' : '');
+    li.dataset.id = parent.id;
+
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'toggle-btn ' + (isExpanded ? 'expanded' : 'collapsed');
+    if (subItems.length === 0) {
+      toggleBtn.style.visibility = 'hidden';
+    }
+    toggleBtn.onclick = function(e) {
+      e.stopPropagation();
+      const itemData = loadData();
+      const idx = itemData.findIndex(i => i.id === parent.id);
+      if (idx !== -1) {
+        itemData[idx].expanded = !itemData[idx].expanded;
+        saveData(itemData);
+        renderList();
+      }
+    };
+    li.appendChild(toggleBtn);
+
+    const textSpan = document.createElement('span');
+    textSpan.textContent = parent.text;
+    li.appendChild(textSpan);
+
+    if (parent.deadline) {
+      const deadlineSpan = document.createElement('span');
+      deadlineSpan.className = 'deadline-info';
+      const deadlineDate = new Date(parent.deadline);
+      const formattedDeadline = deadlineDate.toLocaleString('zh-CN', {
+        month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+      });
+      if (parent.checked && parent.completedTime) {
+        deadlineSpan.textContent = `预计: ${formattedDeadline} | 完成: ${new Date(parent.completedTime).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}`;
+        deadlineSpan.classList.add('completed');
+      } else {
+        deadlineSpan.textContent = `预计: ${formattedDeadline}`;
+        if (new Date(parent.deadline) < new Date() && !parent.checked) {
+          deadlineSpan.classList.add('overdue');
+        }
+      }
+      li.appendChild(deadlineSpan);
+    }
+
+    const addSubBtn = document.createElement('button');
+    addSubBtn.className = 'add-sub-btn';
+    addSubBtn.textContent = '+子项';
+    addSubBtn.onclick = function(e) {
+      e.stopPropagation();
+      showSubInput(parent.id, parentIndex);
+    };
+    li.appendChild(addSubBtn);
+
+    const span = document.createElement('SPAN');
+    const txt = document.createTextNode('\u00D7');
+    span.className = 'close';
+    span.appendChild(txt);
+    span.onclick = function(e) {
+      e.stopPropagation();
+      const itemData = loadData();
+      const idsToRemove = [parent.id];
+      itemData.forEach(item => {
+        if (item.parentId === parent.id) {
+          idsToRemove.push(item.id);
+        }
+      });
+      const newData = itemData.filter(i => !idsToRemove.includes(i.id));
+      saveData(newData);
+      renderList();
+    };
+    li.appendChild(span);
+
+    ul.appendChild(li);
+
+    if (isExpanded) {
+      subItems.forEach((subItem, sIndex) => {
+        const subIndex = data.indexOf(subItem);
+        const subLi = document.createElement('li');
+        subLi.className = 'sub-item' + (subItem.checked ? ' checked' : '');
+        subLi.dataset.id = subItem.id;
+
+        const subToggle = document.createElement('button');
+        subToggle.className = 'toggle-btn';
+        subToggle.style.visibility = 'hidden';
+        subLi.appendChild(subToggle);
+
+        const subTextSpan = document.createElement('span');
+        subTextSpan.textContent = subItem.text;
+        subLi.appendChild(subTextSpan);
+
+        if (subItem.deadline) {
+          const subDeadlineSpan = document.createElement('span');
+          subDeadlineSpan.className = 'deadline-info';
+          const deadlineDate = new Date(subItem.deadline);
+          const formattedDeadline = deadlineDate.toLocaleString('zh-CN', {
+            month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+          });
+          if (subItem.checked && subItem.completedTime) {
+            subDeadlineSpan.textContent = `预计: ${formattedDeadline} | 完成: ${new Date(subItem.completedTime).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}`;
+            subDeadlineSpan.classList.add('completed');
+          } else {
+            subDeadlineSpan.textContent = `预计: ${formattedDeadline}`;
+            if (new Date(subItem.deadline) < new Date() && !subItem.checked) {
+              subDeadlineSpan.classList.add('overdue');
+            }
+          }
+          subLi.appendChild(subDeadlineSpan);
+        }
+
+        const subSpan = document.createElement('SPAN');
+        const subTxt = document.createTextNode('\u00D7');
+        subSpan.className = 'close';
+        subSpan.appendChild(subTxt);
+        subSpan.onclick = function(e) {
+          e.stopPropagation();
+          const itemData = loadData();
+          itemData.splice(subIndex, 1);
+          saveData(itemData);
+          renderList();
+        };
+        subLi.appendChild(subSpan);
+
+        ul.appendChild(subLi);
+      });
+    }
+  });
+}
+
+function showSubInput(parentId, parentIndex) {
+  const ul = document.getElementById('myUL');
+  const parents = document.querySelectorAll('ul li.parent-item');
+  let parentLi = null;
+  parents.forEach(p => {
+    if (p.dataset.id === parentId) {
+      parentLi = p;
+    }
+  });
+
+  const existInput = document.querySelector('.sub-input-row.active');
+  if (existInput) {
+    existInput.remove();
+  }
+
+  const subInputRow = document.createElement('li');
+  subInputRow.className = 'sub-item sub-input-row active';
+  subInputRow.style.listStyle = 'none';
+
+  const toggleSpace = document.createElement('span');
+  toggleSpace.style.width = '24px';
+  toggleSpace.style.display = 'inline-block';
+  subInputRow.appendChild(toggleSpace);
+
+  const subInput = document.createElement('input');
+  subInput.type = 'text';
+  subInput.placeholder = '添加子项目...';
+  subInput.style.flex = '1';
+  subInput.style.minWidth = '0';
+  subInput.style.padding = '10px 12px';
+  subInput.style.border = '1px solid #e0e0e0';
+  subInput.style.borderRadius = '6px';
+  subInput.style.fontSize = '14px';
+  subInput.style.outline = 'none';
+
+  const subDeadlineInput = document.createElement('input');
+  subDeadlineInput.type = 'datetime-local';
+  subDeadlineInput.style.padding = '10px 12px';
+  subDeadlineInput.style.border = '1px solid #e0e0e0';
+  subDeadlineInput.style.borderRadius = '6px';
+  subDeadlineInput.style.fontSize = '14px';
+  subDeadlineInput.style.width = '180px';
+
+  const subAddBtn = document.createElement('button');
+  subAddBtn.className = 'sub-add-btn';
+  subAddBtn.textContent = '添加';
+  subAddBtn.style.padding = '10px 18px';
+  subAddBtn.style.background = 'linear-gradient(135deg, #43a3e4, #4e8fcc)';
+  subAddBtn.style.color = 'white';
+  subAddBtn.style.border = 'none';
+  subAddBtn.style.borderRadius = '6px';
+  subAddBtn.style.fontSize = '14px';
+  subAddBtn.style.cursor = 'pointer';
+  subAddBtn.style.whiteSpace = 'nowrap';
+  subAddBtn.onclick = function() {
+    addSubItem(parentId, subInput.value, subDeadlineInput.value);
+  };
+
+  subInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      addSubItem(parentId, subInput.value, subDeadlineInput.value);
+    }
+  });
+
+  subInputRow.appendChild(subInput);
+  subInputRow.appendChild(subDeadlineInput);
+  subInputRow.appendChild(subAddBtn);
+
+  const nextSibling = parentLi.nextSibling;
+  ul.insertBefore(subInputRow, nextSibling);
+
+  subInput.focus();
+}
+
+function addSubItem(parentId, text, deadline) {
+  if (text.trim() === '') {
+    return;
+  }
+
+  const newItem = {
+    id: Date.now().toString(),
+    text: text.trim(),
+    deadline: deadline || null,
+    checked: false,
+    completedTime: null,
+    parentId: parentId
+  };
+
+  const data = loadData();
+  data.push(newItem);
+  saveData(data);
+
+  renderList();
+}
+
+document.querySelector('ul').addEventListener('click', function(ev) {
+  if (ev.target.tagName === 'LI' && ev.target.classList.contains('parent-item')) {
+    const data = loadData();
+    const items = document.querySelectorAll('ul li.parent-item');
+    const index = Array.from(items).indexOf(ev.target);
+
+    if (index >= 0 && index < data.filter(i => !i.parentId).length) {
+      const parents = data.filter(i => !i.parentId);
+      const targetItem = parents[index];
+
+      if (ev.target.classList.contains('sub-item')) return;
+
+      data.forEach(item => {
+        if (item.id === targetItem.id) {
+          item.checked = !item.checked;
+          if (item.checked) {
+            item.completedTime = new Date().toISOString();
+          } else {
+            item.completedTime = null;
+          }
+        }
+        if (item.parentId === targetItem.id) {
+          item.checked = targetItem.checked;
+          if (targetItem.checked) {
+            item.completedTime = new Date().toISOString();
+          } else {
+            item.completedTime = null;
+          }
+        }
+      });
+      saveData(data);
+    }
+
+    setTimeout(renderList, 100);
+  } else if (ev.target.tagName === 'LI' && ev.target.classList.contains('sub-item')) {
+    const data = loadData();
+    const subItems = data.filter(i => i.parentId);
+    const items = document.querySelectorAll('ul li.sub-item');
+    const index = Array.from(items).indexOf(ev.target);
+
+    if (index >= 0 && index < subItems.length) {
+      data.forEach(item => {
+        if (item.id === subItems[index].id) {
+          item.checked = !item.checked;
+          if (item.checked) {
+            item.completedTime = new Date().toISOString();
+          } else {
+            item.completedTime = null;
+          }
+        }
+      });
+      saveData(data);
+    }
+
+    setTimeout(renderList, 100);
+  }
+});
+
+function newElement() {
+  var inputValue = document.getElementById('myInput').value;
+  var deadlineValue = document.getElementById('deadlineInput').value;
+
+  if (inputValue === '') {
+    alert('请输入事项内容！');
+    return;
+  }
+
+  const newItem = {
+    id: Date.now().toString(),
+    text: inputValue,
+    deadline: deadlineValue || null,
+    checked: false,
+    completedTime: null,
+    parentId: null
+  };
+
+  const data = loadData();
+  data.push(newItem);
+  saveData(data);
+
+  document.getElementById('myInput').value = '';
+  document.getElementById('deadlineInput').value = '';
+
+  renderList();
+}
+
+renderList();
+</script>
+
+</body>
+</html>
