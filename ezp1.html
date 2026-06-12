@@ -3,15 +3,164 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+:root {
+  --bg-primary: #f5f5f5;
+  --bg-panel: #fff;
+  --bg-header: linear-gradient(135deg, #43a3e4, #ab87ee);
+  --bg-input: #fff;
+  --bg-card: #fff;
+  --bg-card-hover: #fafafa;
+  --bg-parent: #e3f2fd;
+  --bg-parent-hover: #bbdefb;
+  --bg-sub: #fafafa;
+  --bg-sub-hover: #f0f0f0;
+  --bg-checked: #e8f5e9;
+  --bg-info-display: #f9f9f9;
+
+  --text-primary: #333;
+  --text-secondary: #888;
+  --text-accent: #4e8fcc;
+  --text-on-header: #fff;
+  --text-on-accent: #fff;
+
+  --border-default: #e0e0e0;
+  --border-focus: #43a3e4;
+  --border-toggle: #666;
+
+  --btn-add-bg: #fff;
+  --btn-add-color: #4e8fcc;
+  --btn-sub-add-bg: linear-gradient(135deg, #43a3e4, #4e8fcc);
+  --btn-sub-add-color: white;
+  --btn-sub-action-bg: #4CAF50;
+  --btn-sub-action-hover: #45a049;
+  --btn-sub-action-color: white;
+  --btn-edit-hover: #ff9800;
+  --btn-close-hover-bg: #f44336;
+  --btn-toggle-hover: rgba(0,0,0,0.1);
+
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-card-hover: 0 2px 8px rgba(0,0,0,0.15);
+  --shadow-panel: 2px 0 10px rgba(0,0,0,0.1);
+  --shadow-header: 0 2px 10px rgba(0,0,0,0.2);
+
+  --checked-color: #4CAF50;
+  --overdue-color: #f44336;
+  --completed-color: #4CAF50;
+
+  --btn-toggle-bg: transparent;
+  --btn-toggle-color: #666;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #121220;
+  --bg-panel: #1a1a2e;
+  --bg-header: linear-gradient(135deg, #1a1a3e, #2d1b4e);
+  --bg-input: #4d525f;
+  --bg-card: #1a1a2e;
+  --bg-card-hover: #232340;
+  --bg-parent: #1e2744;
+  --bg-parent-hover: #2a3555;
+  --bg-sub: #151525;
+  --bg-sub-hover: #1e1e35;
+  --bg-checked: #1a2e1a;
+  --bg-info-display: #16213e;
+
+  --text-primary: #e8e8e8;
+  --text-secondary: #a0a0a0;
+  --text-accent: #7eb8e8;
+  --text-on-header: #e8e8e8;
+  --text-on-accent: #fff;
+
+  --border-default: #2a2a4a;
+  --border-focus: #4a6fa5;
+  --border-toggle: #888;
+
+  --btn-add-bg: #1a1a2e;
+  --btn-add-color: #7eb8e8;
+  --btn-sub-add-bg: linear-gradient(135deg, #2d3a5e, #3d4f7e);
+  --btn-sub-add-color: white;
+  --btn-sub-action-bg: #3d5a80;
+  --btn-sub-action-hover: #4a6a90;
+  --btn-sub-action-color: white;
+  --btn-edit-hover: #e89b30;
+  --btn-close-hover-bg: #c73a3a;
+  --btn-toggle-hover: rgba(255,255,255,0.1);
+
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-card-hover: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-panel: 2px 0 10px rgba(0,0,0,0.4);
+  --shadow-header: 0 2px 10px rgba(0,0,0,0.4);
+
+  --checked-color: #5cb85c;
+  --overdue-color: #e85555;
+  --completed-color: #5cb85c;
+
+  --btn-toggle-bg: transparent;
+  --btn-toggle-color: #aaa;
+}
+
+[data-theme="sakura"] {
+  --bg-primary: #fff5f7;
+  --bg-panel: #ffffff;
+  --bg-header: linear-gradient(135deg, #ffb7c5, #ff8fab);
+  --bg-input: #fff0f3;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fff5f8;
+  --bg-parent: #ffe4ec;
+  --bg-parent-hover: #ffd6e3;
+  --bg-sub: #fff5f8;
+  --bg-sub-hover: #ffe8f0;
+  --bg-checked: #f0fff0;
+  --bg-info-display: #fff5f7;
+
+  --text-primary: #5a4a5a;
+  --text-secondary: #a88a9a;
+  --text-accent: #e75480;
+  --text-on-header: #fff;
+  --text-on-accent: #fff;
+
+  --border-default: #ffd6e0;
+  --border-focus: #ff8fab;
+  --border-toggle: #b88a9a;
+
+  --btn-add-bg: #fff;
+  --btn-add-color: #e75480;
+  --btn-sub-add-bg: linear-gradient(135deg, #ffb7c5, #ff8fab);
+  --btn-sub-add-color: white;
+  --btn-sub-action-bg: linear-gradient(135deg, #ff8fab, #e75480);
+  --btn-sub-action-hover: linear-gradient(135deg, #ff8fab, #d64570);
+  --btn-sub-action-color: white;
+  --btn-edit-hover: #ff8fab;
+  --btn-close-hover-bg: #e75480;
+  --btn-toggle-hover: rgba(255,183,197,0.4);
+
+  --shadow-card: 0 1px 3px rgba(200,150,170,0.15);
+  --shadow-card-hover: 0 2px 8px rgba(200,150,170,0.25);
+  --shadow-panel: 2px 0 10px rgba(200,150,170,0.15);
+  --shadow-header: 0 2px 10px rgba(200,150,170,0.3);
+
+  --checked-color: #7bc88c;
+  --overdue-color: #e75480;
+  --completed-color: #7bc88c;
+
+  --btn-toggle-bg: transparent;
+  --btn-toggle-color: #b88a9a;
+}
+
 body {
   margin: 0;
   min-width: 250px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #f5f5f5;
+  background: var(--bg-primary);
+  transition: background 0.3s ease;
 }
 
 * {
   box-sizing: border-box;
+}
+
+input::placeholder {
+  color: var(--text-secondary);
 }
 
 .side-panel {
@@ -20,13 +169,13 @@ body {
   top: 0;
   width: 280px;
   height: 100vh;
-  background: #fff;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-panel);
   z-index: 100;
   display: flex;
   flex-direction: column;
   transform: translateX(-280px);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .side-panel.expanded {
@@ -35,8 +184,8 @@ body {
 
 .side-panel-header {
   padding: 15px;
-  background: linear-gradient(135deg, #43a3e4, #ab87ee);
-  color: white;
+  background: var(--bg-header);
+  color: var(--text-on-header);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -46,6 +195,7 @@ body {
   margin: 0;
   font-size: 16px;
   font-weight: 400;
+  color: var(--text-on-header);
 }
 
 .toggle-panel-btn {
@@ -53,7 +203,7 @@ body {
   background: rgba(255,255,255,0.2);
   border: none;
   border-radius: 4px;
-  color: white;
+  color: var(--text-on-header);
   cursor: pointer;
   font-size: 12px;
   transition: 0.2s;
@@ -72,20 +222,22 @@ body {
 .info-select {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-default);
   border-radius: 6px;
   font-size: 14px;
   margin-bottom: 15px;
   outline: none;
   cursor: pointer;
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 .info-select:focus {
-  border-color: #43a3e4;
+  border-color: var(--border-focus);
 }
 
 .info-display {
-  background: #f9f9f9;
+  background: var(--bg-info-display);
   border-radius: 8px;
   padding: 15px;
   min-height: 150px;
@@ -93,22 +245,53 @@ body {
 
 .info-display h4 {
   margin: 0 0 10px 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 15px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-default);
   padding-bottom: 8px;
 }
 
 .info-display .info-date {
   font-size: 12px;
-  color: #888;
+  color: var(--text-secondary);
   margin-bottom: 12px;
 }
 
 .info-display .info-text {
   font-size: 13px;
-  color: #555;
+  color: var(--text-secondary);
   line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.info-card {
+  background: var(--bg-card);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-default);
+}
+
+.info-card-latest {
+  border-left: 3px solid var(--checked-color);
+}
+
+.info-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.info-card-date {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: bold;
+}
+
+.info-card-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
   white-space: pre-wrap;
 }
 
@@ -122,11 +305,12 @@ body {
 }
 
 .header {
-  background: linear-gradient(135deg, #43a3e4, #ab87ee);
+  background: var(--bg-header);
   padding: 30px 40px;
-  color: white;
+  color: var(--text-on-header);
   text-align: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow-header);
+  transition: background 0.3s ease;
 }
 
 .header h2 {
@@ -148,6 +332,8 @@ body {
   border-radius: 6px;
   font-size: 14px;
   outline: none;
+  background: var(--bg-input);
+  color: var(--text-primary);
 }
 
 #myInput {
@@ -157,13 +343,14 @@ body {
 
 #deadlineInput {
   width: 200px;
-  color: #555;
+  background: var(--bg-input);
+  color: var(--text-primary);
 }
 
 .addBtn {
   padding: 12px 24px;
-  background: #fff;
-  color: #4e8fcc;
+  background: var(--btn-add-bg);
+  color: var(--btn-add-color);
   border: none;
   border-radius: 6px;
   font-size: 14px;
@@ -188,12 +375,13 @@ ul li {
   position: relative;
   padding: 15px 50px 15px 45px;
   list-style-type: none;
-  background: #fff;
+  background: var(--bg-card);
   font-size: 16px;
+  color: var(--text-primary);
   transition: 0.2s;
   margin-bottom: 8px;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-card);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -204,21 +392,21 @@ ul li {
 }
 
 ul li:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow-card-hover);
 }
 
 ul li.parent-item {
   font-weight: bold;
-  background: #e3f2fd;
+  background: var(--bg-parent);
 }
 
 ul li.parent-item:hover {
-  background: #bbdefb;
+  background: var(--bg-parent-hover);
 }
 
 ul li.sub-item {
   margin-left: 30px;
-  background: #fafafa;
+  background: var(--bg-sub);
   font-size: 15px;
   padding: 12px 50px 12px 45px;
   display: flex;
@@ -227,35 +415,26 @@ ul li.sub-item {
 }
 
 ul li.sub-item:hover {
-  background: #f0f0f0;
+  background: var(--bg-sub-hover);
 }
 
 ul li.sub-item.sub-input-row {
   padding: 8px 15px 8px 45px;
-  background: #fafafa;
+  background: var(--bg-sub);
 }
 
 ul li.checked {
-  background: #e8f5e9;
-  color: #888;
+  background: var(--bg-checked);
+  color: var(--text-secondary);
   text-decoration: line-through;
 }
 
 ul li.checked::before {
-  content: '';
-  position: absolute;
-  border-color: #4CAF50;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  top: 50%;
-  left: 18px;
-  transform: translateY(-50%) rotate(45deg);
-  height: 12px;
-  width: 6px;
+  display: none;
 }
 
 ul li.sub-item.checked::before {
-  left: 38px;
+  display: none;
 }
 
 .toggle-btn {
@@ -266,10 +445,10 @@ ul li.sub-item.checked::before {
   width: 24px;
   height: 24px;
   border: none;
-  background: transparent;
+  background: var(--btn-toggle-bg);
   cursor: pointer;
   font-size: 14px;
-  color: #666;
+  color: var(--btn-toggle-color);
   border-radius: 4px;
   transition: 0.2s;
   display: flex;
@@ -278,7 +457,7 @@ ul li.sub-item.checked::before {
 }
 
 .toggle-btn:hover {
-  background: rgba(0,0,0,0.1);
+  background: var(--btn-toggle-hover);
 }
 
 .toggle-btn.expanded::after {
@@ -300,8 +479,8 @@ li.sub-item .toggle-btn {
   transform: translateY(-50%);
   padding: 4px 8px;
   font-size: 12px;
-  background: #4CAF50;
-  color: white;
+  background: var(--btn-sub-action-bg);
+  color: var(--btn-sub-action-color);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -314,7 +493,7 @@ li.parent-item:hover .add-sub-btn {
 }
 
 .add-sub-btn:hover {
-  background: #45a049;
+  background: var(--btn-sub-action-hover);
 }
 
 .edit-btn {
@@ -324,16 +503,17 @@ li.parent-item:hover .add-sub-btn {
   transform: translateY(-50%);
   padding: 6px 10px;
   font-size: 14px;
-  color: #ccc;
+  color: var(--text-secondary);
   border-radius: 4px;
   cursor: pointer;
   background: transparent;
   border: none;
+  transition: 0.2s;
 }
 
 .edit-btn:hover {
-  background-color: #ff9800;
-  color: white;
+  background-color: var(--btn-edit-hover);
+  color: var(--text-on-accent);
 }
 
 li.sub-item .edit-btn {
@@ -351,12 +531,13 @@ li.sub-item .edit-btn {
   transform: translateY(-50%);
   padding: 8px 12px;
   font-size: 18px;
-  color: #ccc;
+  color: var(--text-secondary);
   border-radius: 4px;
+  transition: 0.2s;
 }
 
 .close:hover {
-  background-color: #f44336;
+  background-color: var(--btn-close-hover-bg);
   color: white;
 }
 
@@ -369,24 +550,24 @@ ul li.edit-mode {
 }
 
 .edit-input-container input:focus {
-  border-color: #43a3e4;
+  border-color: var(--border-focus);
   outline: none;
 }
 
 .deadline-info {
   display: inline;
   font-size: 12px;
-  color: #888;
+  color: var(--text-secondary);
   margin-left: 4px;
 }
 
 .deadline-info.overdue {
-  color: #f44336;
+  color: var(--overdue-color);
   font-weight: bold;
 }
 
 .deadline-info.completed {
-  color: #4CAF50;
+  color: var(--completed-color);
 }
 
 
@@ -418,7 +599,26 @@ ul li.edit-mode {
 </div>
 
 <div id="mainWrapper" class="main-wrapper">
-<button onclick="toggleSidePanel()" style="position:fixed;top:15px;left:15px;z-index:99;padding:8px 12px;background:linear-gradient(135deg, #43a3e4, #ab87ee);border:none;border-radius:6px;color:white;cursor:pointer;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,0.2);">☰ 信息</button>
+<button onclick="toggleSidePanel()" style="position:fixed;top:15px;left:15px;z-index:99;padding:8px 12px;background:var(--bg-header);border:none;border-radius:6px;color:var(--text-on-header);cursor:pointer;font-size:14px;box-shadow:var(--shadow-header);transition:background 0.3s ease;">☰ 信息</button>
+
+<div id="themeSwitcher" style="position:fixed;top:15px;left:95px;z-index:99;">
+  <button onclick="toggleThemeMenu()" id="themeBtn" style="padding:8px 12px;background:var(--bg-header);border:none;border-radius:6px;color:var(--text-on-header);cursor:pointer;font-size:14px;box-shadow:var(--shadow-header);transition:background 0.3s ease;">🎨 风格</button>
+  <div id="themeMenu" style="display:none;position:absolute;top:100%;left:0;margin-top:5px;background:var(--bg-panel);border-radius:8px;box-shadow:var(--shadow-panel);overflow:hidden;min-width:120px;z-index:100;">
+    <button onclick="setTheme('normal')" class="theme-option" data-theme="normal" style="width:100%;padding:10px 15px;border:none;background:transparent;color:var(--text-primary);cursor:pointer;font-size:13px;text-align:left;">⚪ 普通</button>
+    <button onclick="setTheme('dark')" class="theme-option" data-theme="dark" style="width:100%;padding:10px 15px;border:none;background:transparent;color:var(--text-primary);cursor:pointer;font-size:13px;text-align:left;">🌙 暗黑</button>
+    <button onclick="setTheme('sakura')" class="theme-option" data-theme="sakura" style="width:100%;padding:10px 15px;border:none;background:transparent;color:var(--text-primary);cursor:pointer;font-size:13px;text-align:left;">🌸 樱花粉</button>
+  </div>
+</div>
+
+<style>
+#themeMenu .theme-option:hover {
+  background: var(--bg-card-hover);
+}
+#themeMenu .theme-option.active {
+  background: var(--bg-parent);
+  font-weight: bold;
+}
+</style>
 
 <div id="myDIV" class="header">
   <h2>My To Do List</h2>
@@ -435,20 +635,34 @@ ul li.edit-mode {
 <script>
 const STORAGE_KEY = 'todoListData';
 const INFO_DATA = {
-  changelog: {
-    title: '版本更新日志',
-    date: '版本 1.0.1 | 2026-06-11',
-    content: `• 修复版本发布
+  changelog: [
+    {
+      title: '版本更新日志',
+      date: '版本 1.0.2 | 2026-06-12',
+      content: `• 新增主题切换功能并重构样式系统
+- 添加三种主题：普通、暗黑、樱花粉，支持用户动态切换
+- 使用 CSS 自定义属性（CSS Variables）重构所有样式，实现主题化
+- 新增主题切换按钮和下拉菜单，提供直观的界面操作
+- 将用户主题偏好自动保存到本地存储，实现持久化
+- 优化所有界面元素（按钮、卡片、输入框等）的主题适配
+- 改进视觉反馈和交互体验，添加平滑的颜色过渡效果`
+    },
+    {
+      title: '版本更新日志',
+      date: '版本 1.0.1 | 2026-06-11',
+      content: `• 修复版本发布
 - 新增可展开/收起的侧边信息面板，包含版本日志和关于信息
 - 为待办事项添加编辑按钮和编辑模式，支持修改文本和截止时间
 - 改进子任务添加界面，增加取消按钮
 - 调整主内容区域布局，在面板展开时自动偏移
 - 优化点击事件处理逻辑，避免编辑模式下的误触发`
-  },
+    }
+  ],
   about: {
     title: '关于',
     date: 'My To Do List',
     content: `这是一个简洁高效的待办事项管理应用。
+by Jacobz6
 
 功能特点：
 • 添加、编辑、删除待办事项
@@ -456,6 +670,9 @@ const INFO_DATA = {
 • 设置截止时间
 • 数据本地保存
 • 简洁易用的界面
+
+注意事项：
+因信息安全以及轻应用概念，待办信息存储在用户本地浏览器，若执行浏览器清理操作，信息将会丢失！
 
 使用方法：
 点击右上角"添加"按钮添加新事项，使用输入框旁的时钟图标设置截止日期。`
@@ -473,12 +690,68 @@ function showInfo() {
   const select = document.getElementById('infoSelect');
   const info = INFO_DATA[select.value];
   const display = document.getElementById('infoDisplay');
-  display.innerHTML = `
-    <h4>${info.title}</h4>
-    <div class="info-date">${info.date}</div>
-    <div class="info-text">${info.content}</div>
-  `;
+
+  if (select.value === 'changelog' && Array.isArray(info)) {
+    let html = '';
+    info.forEach((item, index) => {
+      const isLatest = index === 0;
+      html += `
+        <div class="info-card ${isLatest ? 'info-card-latest' : ''}">
+          <div class="info-card-header">
+            <span class="info-card-date">${item.date}</span>
+          </div>
+          <div class="info-card-text">${item.content}</div>
+        </div>
+      `;
+    });
+    display.innerHTML = html;
+  } else {
+    display.innerHTML = `
+      <h4>${info.title}</h4>
+      <div class="info-date">${info.date}</div>
+      <div class="info-text">${info.content}</div>
+    `;
+  }
 }
+
+const THEME_KEY = 'todoTheme';
+
+function toggleThemeMenu() {
+  const menu = document.getElementById('themeMenu');
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+
+function setTheme(theme) {
+  document.body.setAttribute('data-theme', theme);
+  localStorage.setItem(THEME_KEY, theme);
+  updateThemeMenu(theme);
+  document.getElementById('themeMenu').style.display = 'none';
+}
+
+function updateThemeMenu(activeTheme) {
+  document.querySelectorAll('.theme-option').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.theme === activeTheme) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+function loadTheme() {
+  const savedTheme = localStorage.getItem(THEME_KEY) || 'normal';
+  setTheme(savedTheme);
+}
+
+document.addEventListener('click', function(e) {
+  const themeSwitcher = document.getElementById('themeSwitcher');
+  const themeMenu = document.getElementById('themeMenu');
+  if (!themeSwitcher.contains(e.target)) {
+    themeMenu.style.display = 'none';
+  }
+});
+
+loadTheme();
+showInfo();
 
 function loadData() {
   const data = localStorage.getItem(STORAGE_KEY);
@@ -679,25 +952,29 @@ function showSubInput(parentId, parentIndex) {
   subInput.style.flex = '1';
   subInput.style.minWidth = '0';
   subInput.style.padding = '10px 12px';
-  subInput.style.border = '1px solid #e0e0e0';
+  subInput.style.border = '1px solid var(--border-default)';
   subInput.style.borderRadius = '6px';
   subInput.style.fontSize = '14px';
   subInput.style.outline = 'none';
+  subInput.style.background = 'var(--bg-input)';
+  subInput.style.color = 'var(--text-primary)';
 
   const subDeadlineInput = document.createElement('input');
   subDeadlineInput.type = 'datetime-local';
   subDeadlineInput.style.padding = '10px 12px';
-  subDeadlineInput.style.border = '1px solid #e0e0e0';
+  subDeadlineInput.style.border = '1px solid var(--border-default)';
   subDeadlineInput.style.borderRadius = '6px';
   subDeadlineInput.style.fontSize = '14px';
   subDeadlineInput.style.width = '180px';
+  subDeadlineInput.style.background = 'var(--bg-input)';
+  subDeadlineInput.style.color = 'var(--text-primary)';
 
   const subAddBtn = document.createElement('button');
   subAddBtn.className = 'sub-add-btn';
   subAddBtn.textContent = '添加';
   subAddBtn.style.padding = '10px 18px';
-  subAddBtn.style.background = 'linear-gradient(135deg, #43a3e4, #4e8fcc)';
-  subAddBtn.style.color = 'white';
+  subAddBtn.style.background = 'var(--btn-sub-add-bg)';
+  subAddBtn.style.color = 'var(--btn-sub-add-color)';
   subAddBtn.style.border = 'none';
   subAddBtn.style.borderRadius = '6px';
   subAddBtn.style.fontSize = '14px';
@@ -730,9 +1007,9 @@ function showSubInput(parentId, parentIndex) {
   subDelBtn.className = 'sub-del-btn';
   subDelBtn.textContent = '×';
   subDelBtn.style.padding = '10px 14px';
-  subDelBtn.style.background = '#f5f5f5';
-  subDelBtn.style.color = '#999';
-  subDelBtn.style.border = '1px solid #e0e0e0';
+  subDelBtn.style.background = 'var(--bg-card-hover)';
+  subDelBtn.style.color = 'var(--text-secondary)';
+  subDelBtn.style.border = '1px solid var(--border-default)';
   subDelBtn.style.borderRadius = '6px';
   subDelBtn.style.fontSize = '14px';
   subDelBtn.style.cursor = 'pointer';
@@ -782,19 +1059,23 @@ function editItem(id) {
   textInput.style.flex = '1';
   textInput.style.minWidth = '0';
   textInput.style.padding = '8px 12px';
-  textInput.style.border = '1px solid #e0e0e0';
+  textInput.style.border = '1px solid var(--border-default)';
   textInput.style.borderRadius = '6px';
   textInput.style.fontSize = '14px';
   textInput.style.outline = 'none';
+  textInput.style.background = 'var(--bg-input)';
+  textInput.style.color = 'var(--text-primary)';
 
   const deadlineInput = document.createElement('input');
   deadlineInput.type = 'datetime-local';
   deadlineInput.value = item.deadline ? item.deadline.slice(0, 16) : '';
   deadlineInput.style.padding = '8px 12px';
-  deadlineInput.style.border = '1px solid #e0e0e0';
+  deadlineInput.style.border = '1px solid var(--border-default)';
   deadlineInput.style.borderRadius = '6px';
   deadlineInput.style.fontSize = '14px';
   deadlineInput.style.width = '180px';
+  deadlineInput.style.background = 'var(--bg-input)';
+  deadlineInput.style.color = 'var(--text-primary)';
 
   deadlineInput.addEventListener('click', function(e) {
     e.stopPropagation();
@@ -807,8 +1088,8 @@ function editItem(id) {
   saveBtn.className = 'sub-add-btn';
   saveBtn.textContent = '保存';
   saveBtn.style.padding = '8px 16px';
-  saveBtn.style.background = 'linear-gradient(135deg, #43a3e4, #4e8fcc)';
-  saveBtn.style.color = 'white';
+  saveBtn.style.background = 'var(--btn-sub-add-bg)';
+  saveBtn.style.color = 'var(--btn-sub-add-color)';
   saveBtn.style.border = 'none';
   saveBtn.style.borderRadius = '6px';
   saveBtn.style.fontSize = '14px';
@@ -823,9 +1104,9 @@ function editItem(id) {
   cancelBtn.className = 'sub-del-btn';
   cancelBtn.textContent = '×';
   cancelBtn.style.padding = '8px 12px';
-  cancelBtn.style.background = '#f5f5f5';
-  cancelBtn.style.color = '#999';
-  cancelBtn.style.border = '1px solid #e0e0e0';
+  cancelBtn.style.background = 'var(--bg-card-hover)';
+  cancelBtn.style.color = 'var(--text-secondary)';
+  cancelBtn.style.border = '1px solid var(--border-default)';
   cancelBtn.style.borderRadius = '6px';
   cancelBtn.style.fontSize = '14px';
   cancelBtn.style.cursor = 'pointer';
